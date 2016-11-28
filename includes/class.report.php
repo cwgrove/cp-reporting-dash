@@ -1,0 +1,20 @@
+<?php
+
+
+
+class Report {
+
+  __contstuct($id){
+
+    if ( !is_plugin_active( 'coursepress/coursepress.php' ) ) {
+    return "coursepress Pro needs to be active";
+    }
+
+  }
+
+
+
+
+
+
+  ?>

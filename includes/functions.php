@@ -2,17 +2,6 @@
 
 require_once('init.php');
 //Get Report
-
-return ($_POST);
-
-if($_POST){
-?><script> console.log("sssss555");</script><?php
-	$course_id = $_post['course_id'];
-	return $_POST;
-	generateReport($course_id);
-}
-
-
 function readReport($course_id){
 
 	//Plugin directory
@@ -321,7 +310,7 @@ function generateReport($course_id){
 	$total_class_stats = CalcCourseStats($student_full_data_array,$allStudentIds);
 
 	buildReport($total_class_stats,$student_full_data_array,$course_id);
-	return true;
+	//return true;
 }
 
 

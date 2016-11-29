@@ -14,10 +14,9 @@
 
 
 require_once('functions.php');
+require_once('/Users/chr1s/Desktop/Dev/wordpress/wp-content/plugins/coursepress/includes/classes/class.course.php');
 
-require_once('/Users/chr1s/Desktop/Dev/wordpress/wp-content/plugins/coursepress/coursepress.php');
-
-
+//require_once('gen-r.php');
 
 
 

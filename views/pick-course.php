@@ -1,12 +1,11 @@
 
 <?php
 //require_once('init.php');
+
+//generateReport(2);
 ?>
 
 
-
-<button id="singlebutton" name="singlebutton" class="btn btn-primary">Button</button>
-<hr/>
 
 
 <form action='#' method="get" class="form-horizontal">
@@ -52,19 +51,3 @@ $dir = $plugindirpath;
 
 
 ?>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $("#button1id").click(function(){
-        $.post("<?php echo $dir; ?>functions.php?action=generateReport",
-        {
-          course_id: 2,
-        },
-        function(data,status){
-            console.log("sssss");
-        });
-    });
-});
-</script>

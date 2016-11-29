@@ -10,7 +10,7 @@ Description:
 
 $dirpath = plugin_dir_path( __FILE__);
 require_once($dirpath.'/includes/init.php');
-
+//require_once($dirpath.'/includes/functions.php');
 
 
 
@@ -27,8 +27,37 @@ function cprd_menu_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
 		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 	}
-$course_id = 18;
+
+
+
+$course_id = htmlspecialchars($_GET["course_id"]);
+if (!empty($course_id)){
 $b = readReport($course_id);
+}
+
+//Plugin directory
+$plugindirpath = dirname(__DIR__);
+
+$plugindirpath = $plugindirpath.'/cp-reporting-dash';
+//Reports path
+$dir = $plugindirpath.'/assets/reports/';
+$path = $plugindirpath.'/views/pick-course.php';
+
+//echo $path;
+//$a ='No reports yet';
+
+$form = getCourses();
+
+ob_start();
+include($path);
+$contactStr = ob_get_clean();
+print $contactStr;
+
+
+
+
+
+
 echo '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">';
 
 

@@ -5,23 +5,34 @@ require_once('init.php');
 //Get Report
 
 
-
-
-
-
 function readReport($course_id){
-
-	$units = getUnitsAndMenuOrder($course_id);
-
-	$number_of_units = count($units);
 
 	//Plugin directory
 	$plugindirpath = dirname(__DIR__);
 	$plugindirpath = $plugindirpath.'/';
 	//Reports path
 	$dir = $plugindirpath.'assets/reports/';
-////
+
+/*	if($course_id === 0 ){
+	//Return No reports Menu.
+	$path = $plugindirpath.'views/no-reports.php';
+	$a ='No reports yet';
+	ob_start();
+	include($path);
+	$contactStr = ob_get_clean();
+				return $contactStr;
+
+	}*/
+
+
+	$units = getUnitsAndMenuOrder($course_id);
+
+	$number_of_units = count($units);
+
+
+////Buc
 	$a = array();
+
 // Open a directory, and read its contents
 if (is_dir($dir)){
   if ($dh = opendir($dir)){
@@ -30,24 +41,64 @@ if (is_dir($dir)){
       }
     closedir($dh);
 
+//Get ids of json files
+foreach ($a as $file){
+	$file = substr($file,strpos($file, '-')+1);
+	$file = substr($file,0,strpos($file, '.'));
+	$course_report_ids[] = $file;
+	}
+
+$sap_this_course_reports = array();
+	foreach ($course_report_ids as $key => $f){
+		$f = intval($f);
+		if ($f == $course_id){
+			$sap_this_course_reports[] = $key;
+		}
+		}
+
+///Remove all files not for this report
+	$all_files_for_this_course = array();
+foreach ($sap_this_course_reports as $key => $value) {
+
+if(array_key_exists($value, $a)) {
+	$all_files_for_this_course[] = $a[$value];
+}
+}
+
+if(empty($all_files_for_this_course)){
+
+
+
+}
+
+
+
+
+
+
 		//Check for most recent file for course
+
 		$course_report_timestamps = array();
-		foreach ($a as $file){
+		foreach ($all_files_for_this_course as $file){
 			$file = substr($file, 0, strpos($file, '-'));
 			$course_report_timestamps[] = $file;
    		}
-		$a = max($course_report_timestamps);
 
-		if(empty($a)){
+
+
+		if(empty($course_report_timestamps)){
+
 					//Return No reports Menu.
-					$path = $plugindirpath.'views/no-reports.php';
-		      $a ='No reports yet';
+		$path = $plugindirpath.'views/no-reports.php';
+		$a ='No reports yet';
 		ob_start();
 		include($path);
 		$contactStr = ob_get_clean();
 		      return $contactStr;
-
 		}
+
+		$a = max($course_report_timestamps);
+
 
 		$jsonurl = $dir.$a."-".$course_id.".json";
 		$json = file_get_contents($jsonurl);
@@ -65,17 +116,8 @@ if (is_dir($dir)){
 		include($path);
 		$contactStr = ob_get_clean();
 		return $contactStr;
-
-
 		//$a
-
-
-
-		return $students;
-
-
-
-
+	//	return $students;
   }
 
 }
@@ -249,7 +291,7 @@ $per_compleate = $num_of_compleated/$number_of_enrolled_students;
 
 
 //Build report with class info and Student Data
-function buildReport($total_class_stats,$student_full_data_array){
+function buildReport($total_class_stats,$student_full_data_array,$course_id){
 
 	//Plugin directory
 	$plugindirpath = dirname(__DIR__);
@@ -265,7 +307,7 @@ function buildReport($total_class_stats,$student_full_data_array){
 
 $time = time();
 
-$course_id ='18';
+//$course_id ='18';
 
 $myfile = fopen($dir.$time."-".$course_id.".json", "w") or die("Unable to open file!");
 fwrite($myfile, $h);
@@ -273,7 +315,7 @@ fclose($myfile);
   return $h;
 }
 
-
+//combines array values with same keys
 function combineData($x,$y){
     $f =  array();
   foreach ($x as $key => $value) {
@@ -281,6 +323,8 @@ function combineData($x,$y){
   }
 return $f;
 }
+
+
 
 function getnameandEmail($allStudentIds)
 {
@@ -305,5 +349,37 @@ function get_dates($allStudentIds,$course_id){
   }
   return $last_logins;
 }
+
+
+
+function getCourses(){
+		$myposts = get_posts(array(
+			'showposts' => -1,
+			'post_type' => 'course',
+			'orderby'   => 'ID',
+			'order'     => 'ASC',
+			));
+
+	$courses = array();
+	foreach($myposts as $course){
+		$c = array();
+		$ID = $course->ID;
+		$title = $course->post_title;
+		$c[] = $ID;
+		$c[] = $title;
+
+		$courses[] = $c;
+		}
+$form = '<select id="selectbasic" name="course_id" class="form-control">';
+	foreach($courses as $course){
+     $form .='<option value="'.$course[0].'">'.$course[1].'</option>';
+	}
+$form .= '</select>';
+return $form;
+	}
+
+
+
+
 
  ?>

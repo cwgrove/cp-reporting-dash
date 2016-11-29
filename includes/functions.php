@@ -1,8 +1,16 @@
 <?php
 
-
 require_once('init.php');
 //Get Report
+
+return ($_POST);
+
+if($_POST){
+?><script> console.log("sssss555");</script><?php
+	$course_id = $_post['course_id'];
+	return $_POST;
+	generateReport($course_id);
+}
 
 
 function readReport($course_id){
@@ -287,6 +295,34 @@ $per_compleate = $num_of_compleated/$number_of_enrolled_students;
   return $x;
 }
 
+
+function generateReport($course_id){
+
+
+	//Get all student ids for couse
+	$allStudentIds = Course::get_course_students_ids($course_id);
+
+	//Get units and menue order
+	$unit_ids =  getUnitsAndMenuOrder($course_id);
+	//Get compleation data
+	$class_progress = getCompleationData($allStudentIds,$course_id, $unit_ids);
+	//Get last login & enroll Date
+	$login_dates = get_dates($allStudentIds,$course_id);
+
+	$student_name_and_email = getnameandEmail($allStudentIds);
+
+
+	//cobine user data
+	$student_course_data_array = combineData($login_dates,$class_progress);
+
+	$student_full_data_array = combineData($student_course_data_array,$student_name_and_email);
+
+	//Class Stats
+	$total_class_stats = CalcCourseStats($student_full_data_array,$allStudentIds);
+
+	buildReport($total_class_stats,$student_full_data_array,$course_id);
+	return true;
+}
 
 
 

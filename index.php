@@ -37,15 +37,12 @@ $b = readReport($course_id);
 
 //Plugin directory
 $plugindirpath = dirname(__DIR__);
-
 $plugindirpath = $plugindirpath.'/cp-reporting-dash';
 //Reports path
 $dir = $plugindirpath.'/assets/reports/';
 $path = $plugindirpath.'/views/pick-course.php';
-
 //echo $path;
 //$a ='No reports yet';
-
 $form = getCourses();
 
 ob_start();
@@ -59,7 +56,6 @@ print $contactStr;
 
 
 echo '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">';
-
 
 //echo ($b);
 ?><pre> <?php print_r($b); ?> </pre> <?php

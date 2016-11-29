@@ -5,7 +5,8 @@
 
 
 
-
+<button id="singlebutton" name="singlebutton" class="btn btn-primary">Button</button>
+<hr/>
 
 
 <form action='#' method="get" class="form-horizontal">
@@ -24,19 +25,46 @@
 
 <?php echo $form; ?>
 
-  
+
 
 
   </div>
 </div>
 
-<!-- Button -->
+
+
 <div class="form-group">
-  <label class="col-md-4 control-label" for="singlebutton">Single Button</label>
-  <div class="col-md-4">
-    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Button</button>
+  <label class="col-md-4 control-label" for="button1id">Double Button</label>
+  <div class="col-md-8">
+    <button id="button1id" name="button1id" class="btn btn-success">Run Report</button>
+    <button id="button2id" name="button2id" class="btn btn-danger">View Report</button>
   </div>
 </div>
 
 </fieldset>
 </form>
+
+<?php
+
+$plugindirpath = get_site_url()."/wp-content/plugins/cp-reporting-dash/includes/";
+
+$dir = $plugindirpath;
+
+
+?>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#button1id").click(function(){
+        $.post("<?php echo $dir; ?>functions.php?action=generateReport",
+        {
+          course_id: 2,
+        },
+        function(data,status){
+            console.log("sssss");
+        });
+    });
+});
+</script>

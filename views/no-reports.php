@@ -1,3 +1,3 @@
-<h1>Noooo</h1>
+<h1>Report Not Generated Yet</h1>
 <?php echo $a ?>
-<h1>Noooo</h1>
+<h1></h1>
